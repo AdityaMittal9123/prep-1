@@ -54,7 +54,7 @@ if (isset($_GET['id'])) {
 
       <div class="container">
 
-       <button data-target="terms" class="btn modal-trigger">Delete</button>
+       <button data-target="terms" class="btn modal-trigger ">Delete</button>
 
        <div class="modal" id="terms">
 
