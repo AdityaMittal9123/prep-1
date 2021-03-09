@@ -16,6 +16,7 @@ include_once 'index_php.php';
     	<div class="row">
     		<?php foreach ($datas as $data) {?>
     			<div class="col col-12 col-md-4 col-lg-3">
+
     				<div class="card z-depth=0" style="width:300px">
     					<div class="card-content center">
     						<div class="card-image" style="height:400px"><img src="<?php echo ($data['cover_image']); ?>"></div>
