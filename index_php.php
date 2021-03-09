@@ -12,20 +12,18 @@ if (isset($_POST['submit'])) {
 
     if($result){
     	<script type="text/javascript">
-    	alert("Book added Successfully");
-    	window.location.href="index.php";
-    	</script>
+    		alert("Book added Successfully");
+    		window.location.href="index.php";
+    		</script>
     }else{
     	<script type="text/javascript">
-    	 alert("oops! You missed something");
-    	 window.location.href="add.php";
-    	 </script>
+    	 	alert("oops! You missed something");
+    	 	window.location.href="add.php";
+    	</script>
     }
     <?php
 
 	mysqli_close($conn);
-
-	header('Location: /library/index.php');
 
 }
 
