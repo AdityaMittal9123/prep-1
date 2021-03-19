@@ -30,31 +30,26 @@ if (isset($_GET['id'])) {
    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 
-  <script>
+   <!-- script for modal used deleting a book -->
+   <script>
     $(document).ready(function(){
       $('.modal').modal();
     });
-</script>
+   </script>
 
- <title>Book Details</title>
+   <title>Book Details</title>
  </head>
  <header>
-    <h3><center>E-Library</center></h3>
+  <h3>
+    <center>E-Library</center>
+  </h3>
  </header>
-
- <!-- making nav bar with a home and Edit Details button -->
-  <nav class="nav-wrapper">
+ <nav class="nav-wrapper">
     <div class="container">
-
       <ul id="nav-mobile" class="Left">
-        <li class="Left"><a  href="index.php" class="btn brand ">Home</a></li>
-        <li class="right"><a href="Edit.php?id=<?php echo $data['id'] ?>" class="btn brand ">Edit Details</a></li>
-
-<!--         making a modal for confirmation message -->
-
-      <div class="container">
-
-       <button data-target="terms" class="btn modal-trigger">Delete</button>
+        <li class="Left"><a href="index.php" class="btn brand ">Home</a></li>
+        <li class="right"><a href="Edit.php?id=<?php echo $data['id'] ?>" class="btn brand ">Edit Books</a></li>
+        <center><button data-target="terms" class="btn modal-trigger">Delete</button></center>
 
        <div class="modal" id="terms">
 
@@ -62,26 +57,27 @@ if (isset($_GET['id'])) {
 
           <!-- Confirmaton message -->
 
-          <h4>Are you sure ?</h4>
+         <center><h4>Are you sure ?</h4>
           <p>This data will not be retrieved back after deleted once.</p>
-          <a href="delete.php?id=<?php echo $data['id'] ?>" class="modal-close btn">Sure</a>
-          <a href="#" class="modal-close btn">Cancel</a>
-
+            <a href="delete.php?id=<?php echo $data['id'] ?>" class="modal-close btn">Sure</a>
+            <a href="#" class="modal-close btn">Cancel</a>
+         </center>
         </div>
-      </div>
-    </div>
-
-
+       </div>
       </ul>
+    </div>
   </nav>
-  <body class="center" style="background-color:#ffe6e6; background-position:center; background-size:cover;background-attachment: fixed;">
+  <body class="background" style="background-color:#ffe6e6;">
+
+
     <center><h4>Happy reading!</h4></center>
+
     <div class="row">
       <div class="container">
           <div class="col m12 l5">
             <div class="card z-depth=0">
               <div class="card-content center">
-                <div class="card-image"><img src="<?php echo ($data['cover_image']); ?>"></div>
+                <div class="card-image"><img src="<?php echo htmlspecialchars($data['cover_image']); ?>"></div>
               </div>
             </div>
 
@@ -90,7 +86,7 @@ if (isset($_GET['id'])) {
           <h4><?php echo htmlspecialchars($data['author_name']); ?></h4>
           <h5>Description</h5></center>
           <h5 class="black-text darken-4"><?php echo htmlspecialchars($data['description']); ?><br><br></h5>
-          <a class="waves-effect waves-light btn" href="<?php echo $data['pdf'] ?>">Read Book</a>
+          <a class="waves-effect waves-light btn" href="<?php echo $data['pdf'] ?>" target="_blank">Read Book</a>
         </div>
       </div>
       </div>

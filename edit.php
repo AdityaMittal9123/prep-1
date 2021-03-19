@@ -1,5 +1,11 @@
 <?php
+
+//icluding connect.php file for connetion
 include_once 'connect.php';
+
+$cover_image = $name = $author_name = " ";
+
+$errors = array('name' => '', 'author_name' => '', 'cover_image' => '');
 
 if (isset($_GET['id'])) {
 
@@ -24,96 +30,113 @@ if (isset($_GET['id'])) {
 
 		if (isset($_POST['Edit'])) {
 
-			$sql = "UPDATE  books SET name='$name' , author_name='$author_name' , description='$description' , cover_image='$cover_image' , pdf='$pdf' WHERE id='$id'";
+			//checking if name , author name and cover image are empty or not
+			if (empty($name)) {
+				$errors['name'] = "This field could not be empty!";
+			}
+			if (empty($author_name)) {
+				$errors['author_name'] = "This Field could not be empty!";
+			}
+			if (empty($cover_image)) {
+				$errors['cover_image'] = "This field could not be empty!";
+			}
 
-			$result = mysqli_query($conn, $sql);
-			?>
-
-
-			if ($result){
-				<script type="text/javascript">
-	            alert("data Updated  Successfully!");
-	            window.location.href="Book_details.php?id=<?php echo $data['id'] ?>";
-				</script>
+			//array filter function
+			if (array_filter($errors)) {
+				//echo "something is wrong";
 			} else {
-				<script type="text/javascript">
-				alert("oops! Data not Updated");
-				window.location.href="edit.php";
-				</script>
 
+				//sql query to iupdate the data which user wants
+				$sql = "UPDATE  books SET name='$name' , author_name='$author_name' , description='$description' , cover_image='$cover_image' , pdf='$pdf' WHERE id='$id'";
 
-			}<?php
+				$result = mysqli_query($conn, $sql);
+				?>
 
+				    if (result){
+				    <!-- alert box  -->
+					<script type="text/javascript">
+						alert("Data Updated successfully!");
+						window.location.href="Book_details.php?id=<?php echo $data['id'] ?>";
+						</script>
+					}
+			<?php
+}
 		}
 
 	}
+	//closing the connection
 	mysqli_close($conn);
 }
 ?>
 
 
 <!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-</head>
-	<title>E-Library</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
-<header>
-	<center><h3>E-Library</h3></center>
-</header>
-	<nav class="nav-wrapper">
-		<div class="container">
-			<ul id="nav-mobile" class="Left hide-on-small-and-down">
-				<li><a href="index.php" class="btn brand ">Home</a></li>
-			</ul>
-	</nav>
+  <html>
+ 	<head>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	    <link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<title>E-Library</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
 
-<body  style="background-color:#ffe6e6;background-position:center; background-size:cover;background-attachment: fixed;">
+	<header>
+		<center><h3>E-Library</h3></center>
+	</header>
+		<nav class="nav-wrapper">
+			<div class="container">
+				<ul id="nav-mobile" class="Left ">
+					<li><a href="index.php" class="btn brand ">Home</a></li>
+				</ul>
+		</nav>
 
-	<section class="container grey-text">
+	<body>
 
-	<h4 class="center black-text">Edit Book</h4>
+	  <section class="container grey-text">
 
-	<form class="white" action="#" method="POST" style="max-width:450px;margin:20px auto; padding:20px;">
+		<h4 class="center black-text">Edit Book</h4>
 
-		<label for="name">Name:</label>
-		<br>
+		<form action="#" method="POST">
 
-		<input value="<?php echo $data['name']; ?>" type="text" name="name" id="name" required>
-		<br><br>
+			<label for="name">Name*:</label>
+			<br>
 
-		<label for="author_name">Author:</label>
-		<br>
+			<input value="<?php echo $data['name']; ?>" type="text" name="name" required>
+			<div class="red-text"><?php echo $errors['name']; ?></div>
+			<br><br>
 
-		<input value="<?php echo $data['author_name']; ?>" type="text" name="author_name" id="author_name" required>
-		<br><br>
+			<label for="author_name">Author*:</label>
+			<br>
 
-		<label for="description">Description:</label>
-		<br>
+			<input value="<?php echo $data['author_name']; ?>" type="text" name="author_name" required>
+			<div class="red-text"><?php echo $errors['author_name']; ?></div>
+			<br><br>
 
-		<input value="<?php echo $data['description']; ?>" type="text" name="description" id="description">
-		<br><br>
+			<label for="description">Description:</label>
+			<br>
 
-		<label type="cover_image">Image:</label>
-		<br>
+			<input value="<?php echo $data['description']; ?>" type="text" name="description" id="description">
+			<br><br>
 
-		<input value="<?php echo $data['cover_image']; ?>" type="text" name="cover_image" id="cover_image" required>
-		<br><br>
+			<label type="cover_image">Image*:</label>
+			<br>
 
-		<label for="pdf">pdf:</label>
-		<br>
+			<input value="<?php echo $data['cover_image']; ?>" type="text" name="cover_image" required>
+			<div class="red-text"><?php echo $errors['cover_image']; ?></div>
+			<br><br>
 
-		<input value="<?php echo $data['pdf']; ?>" type="text" name="pdf" id="pdf">
-		<br><br>
+			<label for="pdf">pdf:</label>
+			<br>
 
-		<div class="center">
-			<input type="submit" name="Edit" value="Edit" class="btn brand z-depth-0">
-		</div>
-	</form>
-</section>
-</body>
-</html>
+			<input value="<?php echo $data['pdf']; ?>" type="text" name="pdf" id="pdf">
+			<br><br>
+
+			<div class="center">
+				<input type="submit" name="Edit" value="Save Changes" class="btn brand z-depth-0">
+			</div>
+		</form>
+	  </section>
+	</body>
+  </html>
 

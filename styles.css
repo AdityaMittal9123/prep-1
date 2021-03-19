@@ -1,0 +1,35 @@
+/*css file for all the pages*/
+
+/*css file for the body of all the pages*/
+body{
+	background-color:#ffe6e6;
+	background-position:center; 
+	background-size:cover; 
+	background-attachment:fixed;
+
+} 
+/*for card class used in home page*/
+.card{
+	width:auto;
+	position:relative;
+	align-content:center;
+
+}
+/*for card-content class used content in cards in home page*/
+.card-content{
+	align-content: center;
+	width:250px;
+
+}
+/*for image in cards*/
+.card-image{
+	height:330px;
+
+}
+/*css for Add form and edit form*/
+form{
+	background-color:white;
+	max-width:500px;
+	margin:20px auto;
+	padding:20px;
+}

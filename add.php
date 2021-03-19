@@ -1,75 +1,108 @@
+<?php
+
+//including database connection file
+include_once 'connect.php';
+
+$cover_image = $name = $author_name = " ";
+$errors = array('name' => '', 'author_name' => '', 'cover_image' => '');
+
+if (isset($_POST['submit'])) {
+
+	//checking the errors (i.e., checking whether the field is empty or not)
+	if (empty($_POST['name'])) {
+		$errors['name'] = "A name is required! ";
+	}
+
+	if (empty($_POST['cover_image'])) {
+		$errors['cover_image'] = 'a cover image is required! <br />';
+
+	}
+	if (empty($_POST['author_name'])) {
+		$errors['author_name'] = "An author name is required!";
+	}
+
+	if (array_filter($errors)) {
+		echo 'something is missing';
+	}
+
+	//SQL query to insert the data
+	else {
+		$sql = "INSERT INTO books (name,author_name,description,cover_image , pdf) VALUES('" . $_POST["name"] . "','" . $_POST["author_name"] . "','" . $_POST["description"] . "','" . $_POST["cover_image"] . "','" . $_POST["pdf"] . "')";
+
+		$result = mysqli_query($conn, $sql);
+		?>
+		if (result) {
+			<script type="text/javascript">
+					alert("Book Added Successfully!");
+					window.location.href="index.php";
+			</script>
+			}
+	<?php
+}
+
+}
+
+mysqli_close($conn);
+
+?>
+
 <!DOCTYPE html>
 <html>
  <head>
+ 	<link rel="stylesheet" href=styles.css>
  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-
-  <script>
-    $(document).ready(function(){
-      $('.modal').modal();
-    });
-	</script>
- </head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
 	<title>Add Book</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
- <header>
-	<center><h3>E-Library</h3></center>
- </header>
+	 <header>
+		<center><h3>E-Library</h3></center>
+	 </header>
 
-	<nav class="nav-wrapper">
-		<div class="container">
-			<ul id="nav-mobile" class="Left">
-				<li><a href="index.php" class="btn brand ">Home</a></li>
-			</ul>
-	</nav>
+		<nav class="nav-wrapper">
+			<div class="container">
+				<ul id="nav-mobile" class="Left">
+					<li><a href="index.php" class="btn brand ">Home</a></li>
+				</ul>
+		</nav>
 
- <body  style="background-color:#ffe6e6;background-position:center; background-size:cover; background-attachment:fixed;">
+ <body class=>
+ 	<section class="container black-text">
+ 		<h4 class="center black-text">Add Book</h4>
 
-	<section class="container black-text">
-
-	<h4 class="center black-text">Add Book</h4>
-
-	<form class="white" action="index.php" method="POST" style="max-width:450px;margin:20px auto; padding:20px;">
-
-		<label for="name">Name:</label>
+	 <form action="add.php" method="POST">
+		<label>Name *:</label>
 		<br>
-
-		<input type="text" name="name" id="name" required>
+		<input type="text" name="name" required>
+		<div class="red-text"><?php echo $errors['name']; ?></div>
 		<br><br>
-
-		<label for="author_name">Author:</label>
+		<label>Author *:</label>
 		<br>
-
-		<input type="text" name="author_name" id="author_name" required>
+		<input type="text" name="author_name" required>
+		<div class="red-text"><?php echo $errors['author_name']; ?></div>
 		<br><br>
-
-		<label for="description">Description:</label>
+		<label >Description:</label>
 		<br>
-
 		<input type="text" name="description" id="description">
 		<br><br>
-
-		<label type="cover_image">Image:</label>
+		<label type="cover_image">Image *:</label>
 		<br>
-
-		<input type="url" pattern="^(?:(?:https?|HTTPS?|ftp|FTP):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]-*)*[a-zA-Z\u00a1-\uffff0-9]+)*)(?::\d{2,})?(?:[\/?#]\S*)?$" name="cover_image" id="cover_image" required>
+		<input type="url" name="cover_image" required>
+		<div class="red-text"><?php echo $errors['cover_image']; ?></div>
 		<br><br>
-
-		<label for="pdf">pdf:</label>
+		<label>pdf:</label>
 		<br>
-
 		<input type="url" name="pdf" id="pdf">
 		<br><br>
-
 		<div class="center">
-			<input type="submit" name="submit" value="submit" class="btn brand z-depth-0">
+		<input type="submit" name="submit" value="submit" class="btn brand z-depth-0">
 		</div>
+	  </form>
 
-
-	</form>
     </section>
- </body>
+  </body>
 </html>
 
